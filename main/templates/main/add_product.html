@@ -1,0 +1,73 @@
+{% extends 'main/base.html' %}
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-10 max-w-2xl bg-white rounded-2xl shadow p-8">
+    <!-- Back link -->
+    <a href="{% url 'feed' %}" 
+       class="text-blue-600 hover:underline mb-6 inline-block flex items-center">
+        ← Back to Feed
+    </a>
+
+    <!-- Heading -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Add New Product</h1>
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-5">
+        {% csrf_token %}
+
+        <!-- Title -->
+        <div>
+            <label class="block text-gray-700 font-medium mb-2">Product Title</label>
+            <input type="text" name="title" placeholder="e.g. iPhone 15 Pro"
+                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
+                   required>
+        </div>
+
+        <!-- Category -->
+        <div>
+            <label class="block text-gray-700 font-medium mb-2">Category</label>
+            <select name="category"
+                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
+                    required>
+                <option value="">-- Select Category --</option>
+                <option value="electronics">Electronics</option>
+                <option value="fashion">Fashion</option>
+                <option value="books">Books</option>
+            </select>
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label class="block text-gray-700 font-medium mb-2">Description</label>
+            <textarea name="description" rows="4" placeholder="Write details about your product..."
+                      class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
+                      required></textarea>
+        </div>
+
+        <!-- Price -->
+        <div>
+            <label class="block text-gray-700 font-medium mb-2">Price ($)</label>
+            <input type="number" name="price" step="0.01"
+                   placeholder="e.g. 499.99"
+                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
+                   required>
+        </div>
+
+        <!-- Image -->
+        <div>
+            <label class="block text-gray-700 font-medium mb-2">Upload Image</label>
+            <input type="file" name="image"
+                   class="w-full text-gray-700 border rounded-lg file:mr-4 file:py-2 file:px-4 
+                          file:rounded-lg file:border-0 file:text-sm file:font-semibold
+                          file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+                class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition shadow">
+            ✅ Submit Listing
+        </button>
+    </form>
+</div>
+{% endblock %}

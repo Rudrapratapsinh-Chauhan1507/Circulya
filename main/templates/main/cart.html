@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Heading -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">🛒 Your Cart</h1>
+
+    {% if cart_items %}
+    <div class="bg-white rounded-2xl shadow p-6">
+        <!-- Cart Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b bg-gray-50">
+                        <th class="py-3 px-4 text-gray-600">Product</th>
+                        <th class="py-3 px-4 text-gray-600">Quantity</th>
+                        <th class="py-3 px-4 text-gray-600">Price</th>
+                        <th class="py-3 px-4 text-gray-600">Subtotal</th>
+                        <th class="py-3 px-4"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr class="border-b hover:bg-gray-50 transition">
+                        <!-- Product -->
+                        <td class="py-4 px-4 font-medium text-gray-800">
+                            {{ item.product.title }}
+                        </td>
+                        <!-- Quantity -->
+                        <td class="py-4 px-4 text-gray-700">{{ item.quantity }}</td>
+                        <!-- Price -->
+                        <td class="py-4 px-4 text-green-600 font-semibold">
+                            ${{ item.product.price }}
+                        </td>
+                        <!-- Subtotal -->
+                        <td class="py-4 px-4 text-green-700 font-bold">
+                            ${{ item.product.price|floatformat:2|add:""|floatformat:2 }}
+                        </td>
+                        <!-- Remove -->
+                        <td class="py-4 px-4">
+                            <a href="{% url 'remove_from_cart' item.id %}"
+                               class="text-red-500 hover:text-red-700 font-medium">
+                                ❌ Remove
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="flex justify-between items-center mt-6">
+            <h3 class="text-xl font-bold text-gray-800">Total: 
+                <span class="text-green-600">${{ total }}</span>
+            </h3>
+            <div class="flex gap-4">
+                <a href="{% url 'feed' %}"
+                   class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 transition">
+                    ← Continue Shopping
+                </a>
+                <a href="{% url 'checkout' %}"
+                   class="bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-green-600 shadow">
+                    ✅ Checkout
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Empty Cart -->
+    <div class="bg-gray-100 text-center p-10 rounded-lg">
+        <p class="text-gray-500 text-lg mb-4">🛍️ Your cart is empty.</p>
+        <a href="{% url 'feed' %}" 
+           class="bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-green-600 shadow">
+            Browse Products
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

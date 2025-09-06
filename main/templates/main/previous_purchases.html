@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% block title %}Previous Purchases{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Heading -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">🧾 Previous Purchases</h1>
+
+    {% if purchases %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for purchase in purchases %}
+        <div class="bg-white rounded-2xl shadow hover:shadow-lg transition p-6 flex flex-col">
+            <!-- Product Title -->
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                {{ purchase.product.title }}
+            </h2>
+            
+            <!-- Price + Quantity -->
+            <p class="text-green-600 font-bold text-lg mb-1">
+                ${{ purchase.product.price }}
+            </p>
+            <p class="text-gray-700 mb-3">
+                Quantity: <span class="font-medium">{{ purchase.quantity }}</span>
+            </p>
+
+            <!-- Purchase Date -->
+            <p class="text-sm text-gray-500 mt-auto">
+                📅 Purchased on: {{ purchase.purchased_at|date:"M d, Y H:i" }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="bg-gray-100 text-center p-12 rounded-lg">
+        <p class="text-gray-500 text-lg mb-4">🙁 You haven’t purchased anything yet.</p>
+        <a href="{% url 'feed' %}" 
+           class="bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-green-600 shadow">
+           🛒 Start Shopping
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

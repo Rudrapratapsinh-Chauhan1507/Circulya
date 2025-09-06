@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}
+{% block title %}My Listings{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4 md:mb-0">My Listings</h1>
+        <a href="{% url 'add_product' %}" 
+           class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 shadow">
+           + Add New Product
+        </a>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {% for product in products %}
+        <div class="bg-white rounded-2xl shadow hover:shadow-lg transition duration-300 p-4 flex flex-col">
+            
+            <!-- Product Image -->
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}"
+                 class="w-full h-48 object-cover rounded-lg mb-3">
+            {% else %}
+            <div class="w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg mb-3">
+                <span class="text-gray-400">No Image</span>
+            </div>
+            {% endif %}
+
+            <!-- Product Info -->
+            <h2 class="font-semibold text-lg text-gray-800 truncate">{{ product.title }}</h2>
+            <p class="text-green-600 font-bold text-xl mb-2">${{ product.price }}</p>
+            <p class="text-sm text-gray-500 flex-grow">{{ product.description|truncatewords:15 }}</p>
+
+            <!-- Actions -->
+            <div class="mt-4 flex justify-between">
+                <a href="#" class="flex items-center bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 text-sm shadow">
+                    ✏️ Edit
+                </a>
+                <a href="#" class="flex items-center bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 text-sm shadow">
+                    🗑️ Delete
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center py-12 bg-gray-100 rounded-lg">
+            <p class="text-gray-500 text-lg">😕 You haven’t listed any products yet.</p>
+            <a href="{% url 'add_product' %}" 
+               class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 shadow">
+               + Add Your First Product
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
